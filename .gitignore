@@ -6,3 +6,4 @@
 /src/Elasticsearch/.vs/Elasticsearch/v17
 /src/Elasticsearch/Elasticsearch.API/obj/Release/net7.0
 *.vsidx
+/src/Elasticsearch/.vs/Elasticsearch/v17/.suo
