@@ -1,6 +1,7 @@
 ﻿using Elasticsearch.API.DTOs;
 using Elasticsearch.API.Models;
 using Elasticsearch.API.Repositories;
+using System.Collections.Immutable;
 using System.Net;
 
 namespace Elasticsearch.API.Services;
@@ -19,9 +20,14 @@ public class ProductService
         return await _productRepository.GetAsync(id);
     }
 
-    public async Task<IEnumerable<Product>> GetAllAsync()
+    public async Task < ResponseDto < List < ProductDto > > > GetAllAsync()
     {
-        return await _productRepository.GetAllAsync();
+        var products = await _productRepository.GetAllAsync();
+
+        var productListDto = products.Select(x => x.CreateDto()).ToList();
+
+        return ResponseDto < List < ProductDto > >.Success(productListDto, HttpStatusCode.OK);
+
     }
 
     public async Task<IEnumerable<Product>> SearchAsync(string query)

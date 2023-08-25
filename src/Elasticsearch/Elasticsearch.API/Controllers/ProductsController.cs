@@ -2,12 +2,11 @@
 using Elasticsearch.API.Services;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using System.Collections.Immutable;
 
 namespace Elasticsearch.API.Controllers;
 
-[Route("api/[controller]")]
-[ApiController]
-public class ProductsController : ControllerBase
+public class ProductsController : BaseController
 {
     private readonly ProductService _productService;
 
@@ -16,10 +15,16 @@ public class ProductsController : ControllerBase
         _productService = productService;
     }
 
+    [HttpGet]
+    public async Task<IActionResult> GetAll()
+    {
+        return CreateActionResult( await _productService.GetAllAsync() ); 
+    }
+
     [HttpPost]
     public async Task<IActionResult> Save(ProductCreateDTO productCreate)
     {
-        return Ok( await _productService.SaveAsync(productCreate) );
+        return CreateActionResult( await _productService.SaveAsync(productCreate) );
     }
 
 }
